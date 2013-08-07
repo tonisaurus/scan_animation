@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Animation</title>
+		<link rel="stylesheet" type="text/css" href="css/line_style.css" />
+	</head>
+
+	<body>
+		<div class="iphone">
+			<div class="iphone-content">
+				<button id="start-animate" class="button">Start Animating</button>
+				<div class="clouds-bg"></div>
+				<div id='line' class="laser"></div>
+			</div>
+		</div>
+
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script>
+		$(document).ready(function(){  
+  			var $laser = $("#line");
+  			var $iphone = $(".iphone");
+  			var $button = $("#start-animate");
+  			var laser_height = $laser.height();
+	        var duration = 2500;
+	        var iphone_screen = 565;
+	        var i = 0;
+
+	        console.log('laser_height = ', laser_height);
+
+	    	function animate() {
+	    		// $button.removeClass("button");
+	    		console.log("animate down");
+	    		$laser.css('opacity', 1);
+	    		$laser.removeClass('flipped');
+	        	// $laser.css("top", -height+'px');
+	        	$laser.css("top", -laser_height);
+	        	console.log("Downward start h = ", $laser.css('top'));
+	        	if (i < 2) {
+		            $laser.animate({
+		                "top": iphone_screen,
+		            }, 
+		            {	
+		            	duration: duration, 
+		            	complete: function() {
+	      					console.log("Downward done h = ", $laser.css('top'));
+	      					// animateUp();
+	      					console.log("animate up");
+				    		$laser.css("top", iphone_screen);
+				        	console.log("Upward start h = ", $laser.css('top'));
+				        	$laser.addClass('flipped');
+				            $laser.animate({
+				                "top": -laser_height,
+				            }, 
+				            {	
+				            	duration: duration, 
+				            	complete: function() {
+			      					console.log("Upward done h = ", $laser.css('top'));
+			      					// $button.addClass("button");
+									animate();
+				  				}
+							});
+				  		}
+					});
+					i++;
+		        }
+		        else {
+		        	$button.addClass("button");
+		        	i=0;
+		        }
+	    	}
+
+	    	// animate();
+	    	$('#start-animate').click(function(){
+	    		$button.removeClass("button");
+	    		animate();	    
+	    	});
+		});
+		</script>
+
+	</body>
+</html>
